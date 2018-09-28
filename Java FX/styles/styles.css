@@ -1,0 +1,9 @@
+#main-panel {
+    -fx-background-color: rgb(202, 218, 236);
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+
+#checkbox-panel {
+    -fx-spacing: 10px;
+}
