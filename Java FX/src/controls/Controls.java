@@ -3,15 +3,21 @@ package controls;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Controls extends Application
 {
+
+    public static final int REGION_SIZE = 50;
+
     @Override
     public void start(Stage stage)
     {
@@ -31,7 +37,8 @@ public class Controls extends Application
         scrollPane.setContent(mainPanel);
 
         //add content to the main panel...
-        mainPanel.getChildren().addAll(checkBoxes());
+        mainPanel.getChildren().addAll(checkBoxes(), radioButtons(),
+                dropdowns(), textElements());
 
         //to set spacing/padding with a panel
         //mainPanel.setSpacing(10);
@@ -81,6 +88,81 @@ public class Controls extends Application
 
     public HBox radioButtons()
     {
-        return null;
+        //create our buttons and group
+        RadioButton[] buttons = new RadioButton[3];
+        ToggleGroup group = new ToggleGroup();
+
+        for (int i = 0; i < buttons.length; i++)
+        {
+            buttons[i] = new RadioButton("Choice #" + i);
+        }
+        group.getToggles().addAll(buttons);
+
+        //assemble our panel and return it!
+        HBox panel = new HBox();
+        panel.setId("radio-panel");
+        panel.getChildren().addAll(buttons);
+        return panel;
+    }
+
+    public VBox dropdowns()
+    {
+        //string dropdown list
+        ComboBox<String> combo = new ComboBox<>();
+        combo.getItems().addAll("Alaska", "Turkey", "Fred Meyer", "Montana", "Renton");
+
+        //dates and colors
+        DatePicker dates = new DatePicker();
+        ColorPicker colors = new ColorPicker();
+
+        //set a css class
+        combo.getStyleClass().add("dropdown");
+        dates.getStyleClass().add("dropdown");
+        colors.getStyleClass().add("dropdown");
+
+        //create a small region to show colors (using a primitive Node)
+        Rectangle colorsRegion = new Rectangle();
+        colorsRegion.setWidth(REGION_SIZE);
+        colorsRegion.setHeight(REGION_SIZE);
+
+        //use an event handler
+        colors.setOnAction(event -> {
+            colorsRegion.setFill(colors.getValue());
+        });
+
+        VBox panel = new VBox();
+        panel.setId("dropdown-panel");
+        panel.getChildren().addAll(combo, dates, colors, colorsRegion);
+        return panel;
+    }
+
+    public VBox textElements()
+    {
+        VBox userInfoForm = new VBox();
+        userInfoForm.getChildren().addAll(
+                createEntryFormRow("Name: ", new TextField()),
+                createEntryFormRow("Bio: ", new TextArea()));
+
+        return userInfoForm;
+    }
+
+    private HBox createEntryFormRow(String prompt, Node textInput)
+    {
+        HBox row = new HBox();
+        Label display = new Label(prompt);
+        row.getChildren().addAll(display, textInput);
+        return row;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

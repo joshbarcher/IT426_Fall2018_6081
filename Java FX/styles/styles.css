@@ -7,3 +7,21 @@
 #checkbox-panel {
     -fx-spacing: 10px;
 }
+
+#radio-panel {
+    -fx-spacing: 10px;
+}
+
+#dropdown-panel {
+    -fx-spacing: 10px;
+}
+
+VBox, HBox {
+    -fx-border-width: 2px;
+    -fx-border-color: rgb(100, 100, 100);
+}
+
+.dropdown {
+    -fx-border-width: 4px;
+    -fx-border-color: red;
+}
