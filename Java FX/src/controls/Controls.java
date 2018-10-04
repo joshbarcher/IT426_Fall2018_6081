@@ -155,15 +155,3 @@ public class Controls extends Application
         return row;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
