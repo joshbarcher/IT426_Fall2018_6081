@@ -9,8 +9,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * A hello world application for Java FX.
+ *
+ * @author Josh Archer
+ * @version 1.0
+ */
 public class HelloWorld extends Application
 {
+
+    public static final int WIN_SIZE = 300;
+    public static final int FONT_SIZE = 30;
+
     @Override
     public void start(Stage stage)
     {
@@ -19,7 +29,7 @@ public class HelloWorld extends Application
         stage.show();
     }
 
-    public Scene getScene()
+    private Scene getScene()
     {
         //create my elements
         VBox column = new VBox();
@@ -30,8 +40,8 @@ public class HelloWorld extends Application
 
         //add a few styles programmatically
         column.setAlignment(Pos.CENTER);
-        info.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+        info.setFont(Font.font("Verdana", FontWeight.BOLD, FONT_SIZE));
 
-        return new Scene(column, 300, 300);
+        return new Scene(column, WIN_SIZE, WIN_SIZE);
     }
 }

@@ -3,8 +3,6 @@ package changingscenes;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,9 +12,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.Arrays;
+
+/**
+ * This Java FX application shows how to changes
+ * scenes in Java FX.
+ *
+ * @author Josh Archer
+ * @version 1.0
+ */
 public class StoryBook extends Application
 {
     public static final int WIN_SIZE = 300;
+    public static final int DELAY = 3000;
 
     private Stage stage;
     private String[] headers = {"Part #1", "Part #2", "Part #3", "Part 4"};
@@ -36,19 +44,14 @@ public class StoryBook extends Application
         stage.setScene(getLoadingScreen());
         stage.show();
 
-        sleep(3000);
-    }
-
-    public void sleep(double millis)
-    {
-        KeyFrame frame = new KeyFrame(Duration.millis(millis),
+        KeyFrame frame = new KeyFrame(Duration.millis(DELAY),
                 event -> stage.setScene(nextScene(0)));
 
         Timeline animation = new Timeline(frame);
         animation.play();
     }
 
-    public Scene getLoadingScreen()
+    private Scene getLoadingScreen()
     {
         //add a few controls
         ProgressIndicator spinner = new ProgressIndicator();
@@ -57,7 +60,7 @@ public class StoryBook extends Application
         return createScene(spinner, loadingMessage);
     }
 
-    public Scene nextScene(int index)
+    private Scene nextScene(int index)
     {
         //add controls for the story
         Text header = new Text(headers[index]);
@@ -75,10 +78,20 @@ public class StoryBook extends Application
         return createScene(header, body);
     }
 
-    public Scene createScene(Node... nodes)
+    private Scene createScene(Node... nodes)
     {
         VBox panel = new VBox();
         panel.getChildren().addAll(nodes);
         return new Scene(panel, WIN_SIZE, WIN_SIZE);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "StoryBook{" +
+                "stage=" + stage +
+                ", headers=" + Arrays.toString(headers) +
+                ", bodies=" + Arrays.toString(bodies) +
+                '}';
     }
 }

@@ -9,10 +9,19 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * Added an example of using the GridPane layout.
+ *
+ * @author Josh Archer
+ * @version 1.0
+ */
 public class GridPaneExample extends Application
 {
     public static final int NUM_COLS = 3;
     public static final int NUM_BOXES = 3;
+    public static final int COL_WIDTH = 80;
+    public static final int WIN_WIDTH = 400;
+    public static final int WIN_HEIGHT = 500;
 
     @Override
     public void start(Stage stage)
@@ -22,7 +31,7 @@ public class GridPaneExample extends Application
         stage.show();
     }
 
-    public Scene getScene()
+    private Scene getScene()
     {
         GridPane grid = new GridPane();
 
@@ -36,7 +45,7 @@ public class GridPaneExample extends Application
         ObservableList<ColumnConstraints> cols = grid.getColumnConstraints();
         for (int i = 1; i <= NUM_COLS; i++)
         {
-            cols.add(new ColumnConstraints(80));
+            cols.add(new ColumnConstraints(COL_WIDTH));
         }
 
         //add a row of checkboxs
@@ -57,7 +66,7 @@ public class GridPaneExample extends Application
         //double check that our row span is working
         grid.add(new Button("Click me too!"), 2, 2);
 
-        return new Scene(grid, 400, 500);
+        return new Scene(grid, WIN_WIDTH, WIN_HEIGHT);
     }
 }
 

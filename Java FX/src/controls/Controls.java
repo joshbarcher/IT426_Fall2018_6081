@@ -1,10 +1,6 @@
 package controls;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,10 +9,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+/**
+ * This Java FX application shows several types of controls
+ *
+ * @author Josh Archer
+ * @version 1.0
+ */
 public class Controls extends Application
 {
-
     public static final int REGION_SIZE = 50;
+    public static final int WIN_WIDTH = 500;
+    public static final int WIN_HEIGHT = 600;
 
     @Override
     public void start(Stage stage)
@@ -29,7 +32,7 @@ public class Controls extends Application
         stage.show();
     }
 
-    public Scene getScene()
+    private Scene getScene()
     {
         //set up our main panels and scrollbars
         VBox mainPanel = new VBox();
@@ -48,10 +51,10 @@ public class Controls extends Application
         //mainPanel.setStyle("-fx-spacing: 10px; -fx-padding: 10px");
         mainPanel.setId("main-panel");
 
-        return new Scene(scrollPane, 500, 600);
+        return new Scene(scrollPane, WIN_WIDTH, WIN_HEIGHT);
     }
 
-    public HBox checkBoxes()
+    private HBox checkBoxes()
     {
         HBox panel = new HBox();
         panel.setId("checkbox-panel");
@@ -86,7 +89,7 @@ public class Controls extends Application
         return panel;
     }
 
-    public HBox radioButtons()
+    private HBox radioButtons()
     {
         //create our buttons and group
         RadioButton[] buttons = new RadioButton[3];
@@ -105,7 +108,7 @@ public class Controls extends Application
         return panel;
     }
 
-    public VBox dropdowns()
+    private VBox dropdowns()
     {
         //string dropdown list
         ComboBox<String> combo = new ComboBox<>();
@@ -126,9 +129,7 @@ public class Controls extends Application
         colorsRegion.setHeight(REGION_SIZE);
 
         //use an event handler
-        colors.setOnAction(event -> {
-            colorsRegion.setFill(colors.getValue());
-        });
+        colors.setOnAction(event -> colorsRegion.setFill(colors.getValue()));
 
         VBox panel = new VBox();
         panel.setId("dropdown-panel");
@@ -136,7 +137,7 @@ public class Controls extends Application
         return panel;
     }
 
-    public VBox textElements()
+    private VBox textElements()
     {
         VBox userInfoForm = new VBox();
         userInfoForm.getChildren().addAll(
