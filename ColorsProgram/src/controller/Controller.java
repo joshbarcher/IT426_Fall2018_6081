@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import model.FileData;
 import model.IColorsData;
 import model.ColorPair;
+import model.db.DBData;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -15,7 +16,7 @@ public class Controller
 
     public Controller()
     {
-        model = new FileData("files/colors.dat"); //new InMemoryData();
+        model = new DBData(); //new FileData("files/colors.dat"); //new InMemoryData();
     }
 
     private String getPath(String file)
