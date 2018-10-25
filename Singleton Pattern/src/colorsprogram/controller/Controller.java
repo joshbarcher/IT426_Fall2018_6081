@@ -4,6 +4,7 @@ import colorsprogram.model.ColorPair;
 import colorsprogram.model.IColorsData;
 import colorsprogram.model.db.DBData;
 import javafx.scene.paint.Color;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -12,9 +13,21 @@ public class Controller
 {
     private IColorsData model;
 
-    public Controller()
+    private static Controller instance;
+
+    private Controller()
     {
-        model = new DBData(); //new FileData("files/colors.dat"); //new InMemoryData();
+        model = DBData.getInstance(); //new FileData("files/colors.dat"); //new InMemoryData();
+    }
+
+    public static Controller getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Controller();
+        }
+
+        return instance;
     }
 
     private String getPath(String file)

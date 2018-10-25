@@ -12,21 +12,31 @@ public class DBData implements IColorsData
 {
     private Connection conn;
 
-    public DBData()
+    private static DBData instance;
+
+    private DBData()
     {
         try
         {
+            //get connected to the database
             conn = DriverManager.getConnection("jdbc:sqlite:colorsDb.sqlite");
-
-            //JDBC quirk
-            Class.forName("org.sqlite.JDBC"); //fix our project classpath
-            System.out.println("Connected to DB");
+            Class.forName("org.sqlite.JDBC"); //fix our project path
+            System.out.println("Connected to ColorsDb");
         }
         catch (SQLException | ClassNotFoundException e)
         {
-            throw new IllegalStateException(
-                    "Cannot connect to DB: " + e.getMessage());
+            //rethrow our exception if we cannot connect
+            throw new IllegalStateException("Cannot connect to model.db: " + e.getMessage());
         }
+    }
+
+    public static DBData getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new DBData();
+        }
+        return instance;
     }
 
     @Override
@@ -35,18 +45,16 @@ public class DBData implements IColorsData
         try
         {
             Statement stmt = conn.createStatement();
-
-            //execute() is for insert, update or delete
-            stmt.execute("INSERT INTO colors VALUES (null, '" + name + "', " +
-                          color.getRed() + ", " +
-                          color.getGreen() + ", " +
-                          color.getBlue() + ", " +
-                          color.getOpacity() + ")");
+            stmt.execute("INSERT INTO colors VALUES(null, " +
+                    color.getRed() + ", " +
+                    color.getGreen() + ", " +
+                    color.getBlue() + ", " +
+                    color.getOpacity() + ", '" +
+                    name + "')");
         }
         catch (SQLException e)
         {
-            throw new IllegalStateException(
-                    "Error inserting new color: " + e.getMessage());
+            throw new IllegalStateException("Cannot insert color: " + e.getMessage());
         }
     }
 
@@ -65,21 +73,22 @@ public class DBData implements IColorsData
     @Override
     public List<ColorPair> getColors()
     {
+        //we use a ResultSet object to iterate over rows in a DB using JDBC
         try
         {
             ResultSet results = conn.createStatement().executeQuery(
                     "SELECT name, red, green, blue, alpha FROM colors");
 
             List<ColorPair> pairs = new ArrayList<>();
-            while (results.next())
+            while (results.next()) //move to the next row and return true if successful
             {
                 String name = results.getString("name");
-                double red = results.getDouble("red");
-                double green = results.getDouble("green");
-                double blue = results.getDouble("blue");
-                double alpha = results.getDouble("alpha");
-
-                Color color = Color.color(red, green, blue, alpha);
+                Color color = Color.color(
+                    results.getDouble("red"),
+                    results.getDouble("green"),
+                    results.getDouble("blue"),
+                    results.getDouble("alpha")
+                );
 
                 pairs.add(new ColorPair(name, color));
             }
@@ -88,8 +97,7 @@ public class DBData implements IColorsData
         }
         catch (SQLException e)
         {
-            throw new IllegalStateException(
-                    "Error retrieving colors: " + e.getMessage());
+            throw new IllegalStateException("Cannot retrieve colors: " + e.getMessage());
         }
     }
 }

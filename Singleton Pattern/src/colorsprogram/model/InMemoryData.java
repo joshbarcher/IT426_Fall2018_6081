@@ -11,9 +11,21 @@ public class InMemoryData implements IColorsData
 {
     private Map<String, Color> colors;
 
-    public InMemoryData()
+    private static InMemoryData instance;
+
+    private InMemoryData()
     {
         colors = new TreeMap<>();
+    }
+
+    public static InMemoryData getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new InMemoryData();
+        }
+
+        return instance;
     }
 
     @Override

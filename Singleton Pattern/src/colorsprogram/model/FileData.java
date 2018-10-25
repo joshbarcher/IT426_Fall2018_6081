@@ -14,10 +14,22 @@ public class FileData implements IColorsData
     private InMemoryData data;
     private String dataFilePath;
 
-    public FileData(String dataFilePath)
+    private static FileData instance;
+
+    private FileData(String dataFilePath)
     {
-        data = new InMemoryData();
+        data = InMemoryData.getInstance();
         this.dataFilePath = dataFilePath;
+    }
+
+    public static FileData getInstance(String dataFilePath)
+    {
+        if (instance == null)
+        {
+            instance = new FileData(dataFilePath);
+        }
+
+        return instance;
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ColorsUI extends Application
 {
-    private Controller controller = new Controller();
+    private Controller controller = Controller.getInstance();
     private FlowPane colorsPanel;
 
     @Override
