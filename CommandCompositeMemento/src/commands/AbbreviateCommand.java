@@ -19,7 +19,10 @@ public class AbbreviateCommand implements ICommand
     @Override
     public void doCommand()
     {
-        oldMessageBody = receiver.getMessageBody();
+        if (oldMessageBody == null)
+        {
+            oldMessageBody = receiver.getMessageBody();
+        }
         receiver.setMessageBody(oldMessageBody.substring(0, length) + "...");
     }
 

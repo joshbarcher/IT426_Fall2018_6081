@@ -17,7 +17,10 @@ public class EditMessageCommand implements ICommand
     @Override
     public void doCommand()
     {
-        oldMessageBody = receiver.getMessageBody();
+        if (oldMessageBody == null)
+        {
+            oldMessageBody = receiver.getMessageBody();
+        }
         receiver.setMessageBody(newMessageBody);
     }
 
