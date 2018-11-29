@@ -1,8 +1,6 @@
 package program;
 
-import commands.AbbreviateCommand;
-import commands.EditMessageCommand;
-import commands.ICommand;
+import commands.*;
 import entities.Message;
 
 import java.util.Arrays;
@@ -11,6 +9,29 @@ import java.util.List;
 public class RunProgram
 {
     public static void main(String[] args)
+    {
+        Message message = new Message("Bill Gates", "Microsoft will change the world!");
+
+        ICommand composite = new CompositeCommand(
+                new EditMessageCommand(message, "Github is ours, mwahahahaha!"),
+                new AbbreviateCommand(message, 10)
+        );
+
+
+        ICommand reverse = new ReverseCommand(message);
+        ICommand commands = new CompositeCommand(composite, reverse);
+
+        System.out.println("Before: " + message.toString());
+        commands.doCommand();
+        System.out.println("After: " + message.toString());
+
+        commands.undoCommand();
+        System.out.println("Undo: " + message.toString());
+        commands.doCommand();
+        System.out.println("Redo: " + message.toString());
+    }
+
+    private static void testCommands()
     {
         Message message = new Message("Bill Gates", "Microsoft will change the world!");
         ICommand abbreviate = new AbbreviateCommand(message, 10);
